@@ -16,9 +16,16 @@ struct NameJson: Decodable {
         let organisasjonsnummer: Int?
         let navn: String?
         let forretningsadresse: forretningsadresse?
+        let naeringskode1: naeringskode1?
     }
     
     struct forretningsadresse: Decodable {
         let adresse: String?
+        let postnummer: String?
+        let poststed: String?
+    }
+    
+    struct naeringskode1: Decodable {
+        let beskrivelse: String?
     }
 }

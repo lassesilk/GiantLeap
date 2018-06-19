@@ -12,6 +12,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
 {
     private var itemArray = [ItemObject]() {
         didSet {
+            print(itemArray)
             searchTableView.reloadData()
             if itemArray.isEmpty == false {
                 searchTableView.separatorStyle = .singleLine
@@ -22,11 +23,17 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     private var SearchTextFromBar: String? {
         didSet {
+            
             fetchItems()
         }
     }
     private var page = 0
-    private var size = 5
+    private var size = 10
+    private var cellForIndex: IndexPath? {
+        didSet {
+            print("cell for index: \(String(describing: cellForIndex))")
+        }
+    }
     
 
     @IBOutlet weak var segmentedControlOutlet: UISegmentedControl!
@@ -39,19 +46,13 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.navigationItem.title = "Search"
         searchTableView.delegate = self
         searchTableView.dataSource = self
+        searchTableView.isUserInteractionEnabled = true
         searchTableView.separatorStyle = .none
         searchBarOutlet.delegate = self
-        
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+       
+    }
+    
 
-        view.addGestureRecognizer(tap)
-    
-    }
-    
-    @objc func dismissKeyboard() {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
-        view.endEditing(true)
-    }
     
     //PRAGMA MARK: - Tableview Funcs ********************************************************
 
@@ -75,7 +76,17 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        cellForIndex = indexPath
+        performSegue(withIdentifier: "infoSegue", sender: self)
+    }
+    
+    
     //PRAGMA MARK: - ScrollView Funcs ********************************************************
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        self.searchBarOutlet.resignFirstResponder()
+    }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
 
@@ -90,9 +101,10 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     //PRAGMA MARK: - SearchBar Funcs ********************************************************
     
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        print("should begin")
+        //if new searches, pages and size needs to be reset to starting point
         page = 0
-        size = 5
+        size = 10
+        
 
         return true
     }
@@ -100,6 +112,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.count < 1 {
             itemArray.removeAll()
+            //Disabled scroll so it will not fetch more with increased size if scrolled.
+            searchTableView.isScrollEnabled = false
         }
         
         switch segmentedControlOutlet.selectedSegmentIndex {
@@ -120,6 +134,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             break
         }
     }
+    
+   
     
     //PRAGMA MARK: - Networking Funcs ********************************************************
     
@@ -143,7 +159,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     do {
                         let item = try JSONDecoder().decode(OrgJson.self, from: urlContents)
                         
-                        tempItemArray.append(ItemObject(name: item.navn, org: item.organisasjonsnummer, adresse: item.forretningsadresse?.adresse))
+                        tempItemArray.append(ItemObject(name: item.navn, org: item.organisasjonsnummer, adresse: item.forretningsadresse?.adresse, naering: item.naeringskode1?.beskrivelse, postnr: item.forretningsadresse?.postnummer, poststed: item.forretningsadresse?.poststed))
                         
                         if orgnr == self?.SearchTextFromBar {
                             DispatchQueue.main.async {
@@ -179,7 +195,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     do {
                         let items = try JSONDecoder().decode(NameJson.self, from: urlContents)
                         for item in items.data{
-                            tempItemArray.append(ItemObject(name: item.navn, org: item.organisasjonsnummer, adresse: item.forretningsadresse?.adresse))
+                            tempItemArray.append(ItemObject(name: item.navn, org: item.organisasjonsnummer, adresse: item.forretningsadresse?.adresse, naering: item.naeringskode1?.beskrivelse, postnr: item.forretningsadresse?.postnummer, poststed: item.forretningsadresse?.poststed))
                         }
                         if filter == self?.SearchTextFromBar {
                             DispatchQueue.main.async {
@@ -216,7 +232,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     do {
                         let items = try JSONDecoder().decode(NameJson.self, from: urlContents)
                         for item in items.data{
-                            tempItemArray.append(ItemObject(name: item.navn, org: item.organisasjonsnummer, adresse: item.forretningsadresse?.adresse))
+                            tempItemArray.append(ItemObject(name: item.navn, org: item.organisasjonsnummer, adresse: item.forretningsadresse?.adresse, naering: item.naeringskode1?.beskrivelse, postnr: item.forretningsadresse?.postnummer, poststed: item.forretningsadresse?.poststed))
                         }
                         if adress == self?.SearchTextFromBar {
                             DispatchQueue.main.async {
@@ -263,7 +279,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     private func handlingResult(result: Result<[ItemObject]>) {
         switch result {
         case .Success(let item):
-            self.itemArray = item
+                self.itemArray = item
         case .Error(let error):
            print(error)
            DispatchQueue.main.async {
@@ -280,6 +296,18 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         self.present(alert, animated: true, completion: nil)
 
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "infoSegue" {
+            if let index = cellForIndex {
+            let _ = searchTableView.cellForRow(at: index)
+                let destinationVC = segue.destination as? InfoViewController
+                print("kom hit i prepare")
+                destinationVC?.infoArray.append(itemArray[index.row])
+               
+            }
+        }
     }
     
 }

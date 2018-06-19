@@ -13,5 +13,8 @@ struct ItemObject {
     var name: String?
     var org: Int?
     var adresse: String?
+    var naering: String?
+    var postnr: String?
+    var poststed: String?
     
 }

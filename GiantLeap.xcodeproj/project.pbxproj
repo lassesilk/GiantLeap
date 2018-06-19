@@ -16,6 +16,7 @@
 		C4FDB33120D9332700389E06 /* ItemObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FDB33020D9332700389E06 /* ItemObject.swift */; };
 		C4FDB33320D933C100389E06 /* NameJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FDB33220D933C100389E06 /* NameJson.swift */; };
 		C4FDB33520D94B9000389E06 /* OrgJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FDB33420D94B9000389E06 /* OrgJson.swift */; };
+		C4FDB33720D96D6E00389E06 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FDB33620D96D6E00389E06 /* InfoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		C4FDB33020D9332700389E06 /* ItemObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemObject.swift; sourceTree = "<group>"; };
 		C4FDB33220D933C100389E06 /* NameJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameJson.swift; sourceTree = "<group>"; };
 		C4FDB33420D94B9000389E06 /* OrgJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OrgJson.swift; path = ../../../GiantLeapTest/GiantLeapTest/OrgJson.swift; sourceTree = "<group>"; };
+		C4FDB33620D96D6E00389E06 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 		C423129020D92D23009DDA6D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				C4FDB33620D96D6E00389E06 /* InfoViewController.swift */,
 				C423127B20D92B84009DDA6D /* AppDelegate.swift */,
 				C423127D20D92B84009DDA6D /* SearchViewController.swift */,
 			);
@@ -175,6 +178,7 @@
 				C4FDB33320D933C100389E06 /* NameJson.swift in Sources */,
 				C4FDB33520D94B9000389E06 /* OrgJson.swift in Sources */,
 				C423128E20D92CED009DDA6D /* SearchTableViewCell.swift in Sources */,
+				C4FDB33720D96D6E00389E06 /* InfoViewController.swift in Sources */,
 				C4FDB33120D9332700389E06 /* ItemObject.swift in Sources */,
 				C423127E20D92B84009DDA6D /* SearchViewController.swift in Sources */,
 				C423127C20D92B84009DDA6D /* AppDelegate.swift in Sources */,
