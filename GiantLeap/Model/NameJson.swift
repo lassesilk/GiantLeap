@@ -15,6 +15,7 @@ struct NameJson: Decodable {
     struct Items: Decodable {
         let organisasjonsnummer: Int?
         let navn: String?
+        let hjemmeside: String?
         let forretningsadresse: forretningsadresse?
         let naeringskode1: naeringskode1?
     }

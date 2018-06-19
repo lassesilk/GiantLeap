@@ -16,5 +16,6 @@ struct ItemObject {
     var naering: String?
     var postnr: String?
     var poststed: String?
+    var hjemmeside: String?
     
 }

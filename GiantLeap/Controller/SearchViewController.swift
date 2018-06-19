@@ -114,6 +114,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             itemArray.removeAll()
             //Disabled scroll so it will not fetch more with increased size if scrolled.
             searchTableView.isScrollEnabled = false
+        } else {
+            searchTableView.isScrollEnabled = true
         }
         
         switch segmentedControlOutlet.selectedSegmentIndex {
@@ -159,7 +161,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     do {
                         let item = try JSONDecoder().decode(OrgJson.self, from: urlContents)
                         
-                        tempItemArray.append(ItemObject(name: item.navn, org: item.organisasjonsnummer, adresse: item.forretningsadresse?.adresse, naering: item.naeringskode1?.beskrivelse, postnr: item.forretningsadresse?.postnummer, poststed: item.forretningsadresse?.poststed))
+                        tempItemArray.append(ItemObject(name: item.navn, org: item.organisasjonsnummer, adresse: item.forretningsadresse?.adresse, naering: item.naeringskode1?.beskrivelse, postnr: item.forretningsadresse?.postnummer, poststed: item.forretningsadresse?.poststed, hjemmeside: item.hjemmeside))
                         
                         if orgnr == self?.SearchTextFromBar {
                             DispatchQueue.main.async {
@@ -195,7 +197,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     do {
                         let items = try JSONDecoder().decode(NameJson.self, from: urlContents)
                         for item in items.data{
-                            tempItemArray.append(ItemObject(name: item.navn, org: item.organisasjonsnummer, adresse: item.forretningsadresse?.adresse, naering: item.naeringskode1?.beskrivelse, postnr: item.forretningsadresse?.postnummer, poststed: item.forretningsadresse?.poststed))
+                            tempItemArray.append(ItemObject(name: item.navn, org: item.organisasjonsnummer, adresse: item.forretningsadresse?.adresse, naering: item.naeringskode1?.beskrivelse, postnr: item.forretningsadresse?.postnummer, poststed: item.forretningsadresse?.poststed, hjemmeside: item.hjemmeside))
                         }
                         if filter == self?.SearchTextFromBar {
                             DispatchQueue.main.async {
@@ -232,7 +234,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     do {
                         let items = try JSONDecoder().decode(NameJson.self, from: urlContents)
                         for item in items.data{
-                            tempItemArray.append(ItemObject(name: item.navn, org: item.organisasjonsnummer, adresse: item.forretningsadresse?.adresse, naering: item.naeringskode1?.beskrivelse, postnr: item.forretningsadresse?.postnummer, poststed: item.forretningsadresse?.poststed))
+                            tempItemArray.append(ItemObject(name: item.navn, org: item.organisasjonsnummer, adresse: item.forretningsadresse?.adresse, naering: item.naeringskode1?.beskrivelse, postnr: item.forretningsadresse?.postnummer, poststed: item.forretningsadresse?.poststed, hjemmeside: item.hjemmeside))
                         }
                         if adress == self?.SearchTextFromBar {
                             DispatchQueue.main.async {
