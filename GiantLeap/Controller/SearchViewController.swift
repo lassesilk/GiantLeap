@@ -11,11 +11,8 @@ import UIKit
 class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate
 {
     
-    
-    
     private var itemArray = [ItemObject]() {
         didSet {
-            
             searchTableView.reloadData()
             if itemArray.isEmpty == false {
                 searchTableView.separatorStyle = .singleLine
@@ -24,14 +21,16 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
         }
     }
+    //Computed var so fetching happens "as we go"
     private var SearchTextFromBar: String? {
         didSet {
-            
             fetchItems()
         }
     }
+    //private vars for loading more results with scroll
     private var page = 0
     private var size = 10
+    //Making a private var for usecase prepare for segue
     private var cellForIndex: IndexPath?
     
     
@@ -121,12 +120,12 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         switch segmentedControlOutlet.selectedSegmentIndex {
         case 0:
             
-            //API-et støtter kun søk på minimum ni sifre på orgnr
+            //API only supports 9 digits results on "organisasjonsnummer"
             if searchText.count > 8 {
                 SearchTextFromBar = searchText
             }
         case 1, 2:
-            //Støtter søk på mer enn 2 tegn på navn
+            //API filtering supports search for more than 1 char
             if searchText.count > 1 {
                 let aString = searchText
                 let newString = aString.replacingOccurrences(of: " ", with: "+")
@@ -169,6 +168,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     guard let data = data else { return }
                     
                     do {
+                        //OrgJson struct, because result has different nesting than the others
                         let item = try JSONDecoder().decode(OrgJson.self, from: data)
                        
                         tempItemArray.append(ItemObject(name: item.navn, org: item.organisasjonsnummer, adresse: item.forretningsadresse?.adresse, naering: item.naeringskode1?.beskrivelse, postnr: item.forretningsadresse?.postnummer, poststed: item.forretningsadresse?.poststed, hjemmeside: item.hjemmeside))
@@ -180,7 +180,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     } catch let jsonError {
                         print(jsonError)
                     }
-                    }.resume()
+                }.resume()
             }
         
     }
@@ -270,12 +270,10 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     private func fetchItems() {
         switch segmentedControlOutlet.selectedSegmentIndex {
         case 0:
-            
             fetchItemsByOrg(searchName: SearchTextFromBar, completion: { (result) in
                 self.handlingResult(result: result)
             })
         case 1:
-            
             fetchItemsByName(searchName: SearchTextFromBar, completion: { (result) in
                 self.handlingResult(result: result)
             })
