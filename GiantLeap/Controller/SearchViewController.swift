@@ -10,9 +10,12 @@ import UIKit
 
 class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate
 {
+    
+    
+    
     private var itemArray = [ItemObject]() {
         didSet {
-            print(itemArray)
+            
             searchTableView.reloadData()
             if itemArray.isEmpty == false {
                 searchTableView.separatorStyle = .singleLine
@@ -29,11 +32,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     private var page = 0
     private var size = 10
-    private var cellForIndex: IndexPath? {
-        didSet {
-            print("cell for index: \(String(describing: cellForIndex))")
-        }
-    }
+    private var cellForIndex: IndexPath?
     
 
     @IBOutlet weak var segmentedControlOutlet: UISegmentedControl!
@@ -42,13 +41,14 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+       
         self.navigationItem.title = "Search"
         searchTableView.delegate = self
         searchTableView.dataSource = self
         searchTableView.isUserInteractionEnabled = true
         searchTableView.separatorStyle = .none
         searchBarOutlet.delegate = self
+
        
     }
     
@@ -185,36 +185,39 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
        var tempItemArray = [ItemObject]()
         let tempStr = size
         let tempPage = page
-        
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+   
             if let filter = searchName {
                 let finalURL = "http://data.brreg.no/enhetsregisteret/enhet.json?page=\(tempPage)&size=\(tempStr)&$filter=startswith(navn,'\(filter)')"
                 
                 guard let itemUrl = URL(string: finalURL) else { return }
-                print(itemUrl)
-                if let urlContents = try? Data(contentsOf: itemUrl) {
+                
+                let request = URLRequest(url: itemUrl, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 60)
+                
+                URLSession.shared.dataTask(with: request) { (data, response, error) in
+                   
+                    
+                    if error != nil {
+                        print(error!.localizedDescription)
+                    }
+                    
+                    guard let data = data else { return }
                     
                     do {
-                        let items = try JSONDecoder().decode(NameJson.self, from: urlContents)
+                        let items = try JSONDecoder().decode(NameJson.self, from: data)
                         for item in items.data{
                             tempItemArray.append(ItemObject(name: item.navn, org: item.organisasjonsnummer, adresse: item.forretningsadresse?.adresse, naering: item.naeringskode1?.beskrivelse, postnr: item.forretningsadresse?.postnummer, poststed: item.forretningsadresse?.poststed, hjemmeside: item.hjemmeside))
+                                                   }
+                        //Get back to the main queue
+                        DispatchQueue.main.async {
+                            
+                            self.itemArray.removeAll()
+                            completion(.Success(tempItemArray))
                         }
-                        if filter == self?.SearchTextFromBar {
-                            DispatchQueue.main.async {
-                                self?.itemArray.removeAll()
-                                completion(.Success(tempItemArray))
-                            }
-                        }
-                    } catch {
-                        print(error)
-                       
+                    } catch let jsonError {
+                        print(jsonError)
                     }
-                } else {
-                    completion(.Error("Unable to retrieve data from URL"))
-                }
+                    }.resume()
             }
-        }
-        
     }
     
     private func fetchItemsByAdress(searchName: String?, completion: @escaping (Result<[ItemObject]>) -> Void) {
