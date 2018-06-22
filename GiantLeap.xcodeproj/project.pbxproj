@@ -13,9 +13,9 @@
 		C423128320D92B84009DDA6D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C423128220D92B84009DDA6D /* Assets.xcassets */; };
 		C423128620D92B84009DDA6D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C423128420D92B84009DDA6D /* LaunchScreen.storyboard */; };
 		C423128E20D92CED009DDA6D /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C423128D20D92CED009DDA6D /* SearchTableViewCell.swift */; };
+		C4DD183120DD280600B314FE /* OrgJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DD183020DD280600B314FE /* OrgJson.swift */; };
 		C4FDB33120D9332700389E06 /* ItemObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FDB33020D9332700389E06 /* ItemObject.swift */; };
 		C4FDB33320D933C100389E06 /* NameJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FDB33220D933C100389E06 /* NameJson.swift */; };
-		C4FDB33520D94B9000389E06 /* OrgJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FDB33420D94B9000389E06 /* OrgJson.swift */; };
 		C4FDB33720D96D6E00389E06 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FDB33620D96D6E00389E06 /* InfoViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -28,9 +28,9 @@
 		C423128520D92B84009DDA6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C423128720D92B84009DDA6D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C423128D20D92CED009DDA6D /* SearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
+		C4DD183020DD280600B314FE /* OrgJson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgJson.swift; sourceTree = "<group>"; };
 		C4FDB33020D9332700389E06 /* ItemObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemObject.swift; sourceTree = "<group>"; };
 		C4FDB33220D933C100389E06 /* NameJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameJson.swift; sourceTree = "<group>"; };
-		C4FDB33420D94B9000389E06 /* OrgJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OrgJson.swift; path = ../../../GiantLeapTest/GiantLeapTest/OrgJson.swift; sourceTree = "<group>"; };
 		C4FDB33620D96D6E00389E06 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -96,9 +96,9 @@
 		C423129120D92D65009DDA6D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				C4DD183020DD280600B314FE /* OrgJson.swift */,
 				C4FDB33020D9332700389E06 /* ItemObject.swift */,
 				C4FDB33220D933C100389E06 /* NameJson.swift */,
-				C4FDB33420D94B9000389E06 /* OrgJson.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -176,11 +176,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4FDB33320D933C100389E06 /* NameJson.swift in Sources */,
-				C4FDB33520D94B9000389E06 /* OrgJson.swift in Sources */,
 				C423128E20D92CED009DDA6D /* SearchTableViewCell.swift in Sources */,
 				C4FDB33720D96D6E00389E06 /* InfoViewController.swift in Sources */,
 				C4FDB33120D9332700389E06 /* ItemObject.swift in Sources */,
 				C423127E20D92B84009DDA6D /* SearchViewController.swift in Sources */,
+				C4DD183120DD280600B314FE /* OrgJson.swift in Sources */,
 				C423127C20D92B84009DDA6D /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
